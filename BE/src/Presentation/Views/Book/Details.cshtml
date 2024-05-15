@@ -156,7 +156,7 @@
                     <p>@Model.Language</p>
 
                     <div>
-                        @if (Model.Owner == currentUserName)
+                        @if (Model.Owner == currentUserName || User.IsInRole("Admin"))
                         {
                             <button id="editBookButton" data-toggle="modal" data-target="#editBookModal" class="button" type="button">Редактировать книгу</button>
                             @*                            <a id="UploadBook" href="" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#exampleModal2" onclick="ClearMessageBox()"><b>Upload Book</b></a>
