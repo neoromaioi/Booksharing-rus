@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class UserEditingDTO
     {
-        public UserEditingDTO(string firstName="Default", string lastName="Defaultt", string userName="default", string email="default@mail.ru", string password = "", string newPassword = "")
+        /*public UserEditingDTO(string firstName="Default", string lastName="Defaultt", string userName="default", string email="default@mail.ru", string password = "", string newPassword = "")
         {
             FirstName = firstName;
             LastName = lastName;
@@ -17,7 +17,7 @@ namespace Domain.Entities
             Email = email;
             Password = password;
             NewPassword = newPassword;
-        }
+        }*/
 
         [Required(ErrorMessage = "{0} обязательное")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} длина должна быть от 3 до 50 символов")]

@@ -118,7 +118,7 @@ namespace Presentation.Controllers
             if (!(_signInManager.IsSignedIn(User)))
                 return NoContent();
             var currentUser = _userManager.GetCurrentUser();
-            return View(new UserEditingDTO(currentUser.FirstName, currentUser.LastName, currentUser.UserName, currentUser.Email, "", ""));
+            return View(new UserEditingDTO() { FirstName=currentUser.FirstName, LastName=currentUser.LastName, UserName=currentUser.UserName, Email = currentUser.Email, Password="", NewPassword="" });
         }
 
         [HttpPost]
