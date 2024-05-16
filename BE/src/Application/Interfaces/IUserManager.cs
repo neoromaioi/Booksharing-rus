@@ -11,6 +11,7 @@ namespace Application.Interfaces
     public interface IUserManager
     {
         public Task<IdentityResult> AddUser(UserRegistrationDTO userDTO);
+        public Task<bool> EditUser(UserEditingDTO userDTO);
         public User GetCurrentUser();
         public UserProfileDTO GetCurrentUserProfileData();
         public Task<bool> UpdateUserAvatar(IFormFile image);

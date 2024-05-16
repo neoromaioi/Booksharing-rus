@@ -64,6 +64,39 @@ namespace Application.Manager
             return result;
         }
 
+        public async Task<bool> EditUser(UserEditingDTO userDTO)
+        {
+            var currentUser = GetCurrentUser();
+            if ((userDTO.FirstName != currentUser.FirstName) && !(string.IsNullOrEmpty(userDTO.FirstName)))
+            {
+                currentUser.FirstName = userDTO.FirstName;
+            }
+            if ((userDTO.LastName != currentUser.LastName) && !(string.IsNullOrEmpty(userDTO.LastName)))
+            {
+                currentUser.LastName = userDTO.LastName;
+            }
+            if ((userDTO.UserName != currentUser.UserName) && !(string.IsNullOrEmpty(userDTO.UserName))) 
+            { 
+                currentUser.UserName = userDTO.UserName;
+                await  _identityManager.UpdateNormalizedUserNameAsync(currentUser);
+            }
+            if ((userDTO.Email != currentUser.Email) && !(string.IsNullOrEmpty(userDTO.Email))) 
+            {
+                currentUser.Email = userDTO.Email; 
+                await _identityManager.UpdateNormalizedEmailAsync(currentUser);
+            }
+            if (!(string.IsNullOrEmpty(userDTO.Password)) && !(string.IsNullOrEmpty(userDTO.NewPassword)))
+            {
+                var resu = await _identityManager.ChangePasswordAsync(currentUser, userDTO.Password, userDTO.NewPassword);
+                if (!resu.Succeeded)
+                {
+                    return false;
+                }
+            }
+            _userRepository.SaveChanges();
+            return true;
+        }
+
         public User GetCurrentUser()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;

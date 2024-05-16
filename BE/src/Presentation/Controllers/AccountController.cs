@@ -112,6 +112,33 @@ namespace Presentation.Controllers
             return View(userLoginDTO);
         }
 
+        [HttpGet]
+        public IActionResult UserEditing()
+        {
+            if (!(_signInManager.IsSignedIn(User)))
+                return NoContent();
+            var currentUser = _userManager.GetCurrentUser();
+            return View(new UserEditingDTO(currentUser.FirstName, currentUser.LastName, currentUser.UserName, currentUser.Email, "", ""));
+        }
+
+        [HttpPost]
+        [RequestSizeLimit(500)]
+        public async Task<IActionResult> UserEditing(UserEditingDTO userEditingDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _userManager.EditUser(userEditingDTO);
+                if (result == true)
+                    return RedirectToAction("Index", "Home");
+                else
+                {
+                    ViewData["Error"] = "Неудачная попытка изменения данных!";
+                    return View(userEditingDTO);
+                }
+            }
+            return View(userEditingDTO);
+        }
+
         public IActionResult UserProfile(string section, int page = 1)
         {
             var currentUser = _userManager.GetCurrentUser();
